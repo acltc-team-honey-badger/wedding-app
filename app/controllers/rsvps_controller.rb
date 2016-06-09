@@ -5,7 +5,7 @@ class RsvpsController < ApplicationController
   end
 
   def create
-    @rsvp = Rsvp.new(params[:rsvp])
+    @rsvp = Rsvp.new(rsvp_params)
     if @rsvp.save
       redirect_to "/rsvps/#{@rsvp.id}"
     else
@@ -23,7 +23,7 @@ class RsvpsController < ApplicationController
 
   def update
     @rsvp = Rsvp.find_by(id: params[:id])
-    if @rsvp.update(params[:rsvp])
+    if @rsvp.update(rsvp_params)
       redirect_to "/rsvps/#{@rsvp.id}"
     else
       render :edit
@@ -34,6 +34,13 @@ class RsvpsController < ApplicationController
     Rsvp.find_by(id: params[:id]).destroy
     redirect_to "/rsvps"
   end
+
+  private
+
+  def rsvp_params
+    params.require(:rsvp).permit(:first_name, :last_name, :attending, :vegetarian, :guests  )
+  end
+
 
 
 
